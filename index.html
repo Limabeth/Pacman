@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Pacman</title>
+    <link href="./css/style.css" rel="stylesheet" type="text/css" />
+    <link rel="icon" href="./images/pacman.png">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Squada+One&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Aldrich&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+</head>
+<body>
+    <div id="container">
+          <div id="game">
+            <div id="cvs_bg_div"><canvas id="cvs_bg"></canvas></div>
+            <div id="cvs_maze_div"><canvas id="cvs_maze"></canvas></div>
+            <div id="cvs_food_div"><canvas id="cvs_food"></canvas></div>
+            <div id="cvs_pill_div"><canvas id="cvs_pill"></canvas></div>
+            <div id="cvs_pacman_div"><canvas id="cvs_pacman"></canvas></div>
+            <div id="cvs_ui_div"><canvas id="cvs_ui"></canvas></div>
+            <div id="cvs_score_div"><canvas id="cvs_score"></canvas>
+              <button id="newgame" style="display:none">New Game</button>
+            </div>
+          </div>
+    </div>
+    <div id="cheats_menu" style="display: none">
+      <button class="ignore_ghosts">Ghost Immunity</button>
+      <button class="quick_levels">Quick Levels</button>
+      <button class="instant_win">Trigger Win</button>
+      <button class="instant_lose">Trigger Lose</button>
+      <div id="cheats_menu_trap" tabindex="0"></div>
+    </div>
+
+    <div id="main_menu" style="display:none">
+      <button class="username">Enter your name</button>
+      <button class="bestscore">Your best score</button>
+      <button class="scores_table">Show all scores</button>
+      <button class="start">Start Game</button>
+      <div id="main_menu_trap" tabindex="0"></div>
+    </div>
+
+    <div id="name_input_menu" style="display:none">
+      <input class="enter_name" name="username" type="text">
+      <button class="send">Send</button>
+      <div class="dialog">Saved!</div>
+      <button class="back">Back</button>
+      <div id="name_input_menu_trap" tabindex="0"></div>
+    </div>
+
+    <div id="bestscore_menu" style="display:none">
+      <input class="enter_name" name="username" type="text">
+      <button class="send">Send</button>
+      <div class="dialog">Saved</div>
+      <button class="back">Back</button>
+      <div id="bestscore_menu_trap" tabindex="0"></div>
+    </div>
+
+    <div id="all_scores" style="display:none">
+      <table></table>
+      <button class="back" tabindex="0"><i class="fas fa-chevron-left"></i></button>
+      <div id="all_scores_trap1" tabindex="0"></div>
+      <div id="all_scores_trap2" tabindex="0"></div>
+    </div>
+
+    <div id="dummytext">Text<i class="fas fa-chevron-left"></i></div>
+
+      <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script src="./js/ajax.js"></script>
+      <script src="./js/sound.js"></script>
+      <script src="./js/canvas.js"></script>
+
+      <script src="./js/bg.js"></script>
+      <script src="./js/maze.js"></script>
+      <script src="./js/food.js"></script>
+
+      <script src="./js/win.js"></script>
+      <script src="./js/lose.js"></script>
+
+      <script src="./js/script.js"></script>
+      <script src="./js/collisions.js"></script>
+
+      <script src="./js/pacman.js"></script>
+      <script src="./js/ghosts.js"></script>
+
+      <script src="./js/pill.js"></script>
+
+      <script src="./js/main.js"></script>
+      
+      <script src="./js/controller.js"></script>
+      <script src="./js/spa.js"></script>
+</body>
+</html>
