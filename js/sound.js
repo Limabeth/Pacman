@@ -11,15 +11,15 @@ const eatGhostSound = new Audio();
 const extraPacSound = new Audio();
 
 function getSounds() {
-  introSound.src = "./sounds/pacman_intro.mp3";
-  munchSound.src = "./sounds/pacman_chomp.mp3";
-  deathSound.src = "./sounds/pacman_death.mp3";
-  levelSound.src = "./sounds/pacman_level.mp3";
-  lostSound.src = "./sounds/pacman_lost.mp3";
-  winSound.src = "./sounds/pacman_win.mp3";
-  eatPillSound.src = "./sounds/pacman_eatpill.mp3";
-  eatGhostSound.src = "./sounds/pacman_eatghost.mp3";
-  extraPacSound.src = "./sounds/pacman_extrapac.mp3"
+  introSound.src = "/sounds/pacman_intro.mp3";
+  munchSound.src = "/sounds/pacman_chomp.mp3";
+  deathSound.src = "/sounds/pacman_death.mp3";
+  levelSound.src = "/sounds/pacman_level.mp3";
+  lostSound.src = "/sounds/pacman_lost.mp3";
+  winSound.src = "/sounds/pacman_win.mp3";
+  eatPillSound.src = "/sounds/pacman_eatpill.mp3";
+  eatGhostSound.src = "/sounds/pacman_eatghost.mp3";
+  extraPacSound.src = "/sounds/pacman_extrapac.mp3"
 }
 
 function unlockSounds() {
