@@ -72,6 +72,7 @@ MainMenu.start.onclick = function () {
   game.startGame();
 };
 MainMenu.newgame.onclick = function () {
+  MainMenu.newgame.style.display = "none";
   game.startGame();
 };
 
