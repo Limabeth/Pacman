@@ -11,7 +11,7 @@ const eatGhostSound = new Audio();
 const extraPacSound = new Audio();
 
 function getSounds() {
-  introSound.src = "../sounds/pacman_intro.mp3";
+  introSound.src = "https://github.com/Limabeth/Pacman/blob/main/sounds/pacman_intro.mp3";
   munchSound.src = "../sounds/pacman_chomp.mp3";
   deathSound.src = "../sounds/pacman_death.mp3";
   levelSound.src = "../sounds/pacman_level.mp3";
