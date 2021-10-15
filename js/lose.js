@@ -37,7 +37,7 @@ class Lose {
     }, 1000);
 
     setTimeout(function() {
-      MainMenu.newgame.style.display = "block";
+      MainMenu.backToMenu.style.display = "block";
       activateGameController(0);
     }, 4000);
 

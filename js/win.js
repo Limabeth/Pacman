@@ -111,7 +111,7 @@ class Victory {
       ui.drawDefaultScore();
     }
 
-    MainMenu.newgame.style.display = "block";
+    MainMenu.backToMenu.style.display = "block";
 
     this.timer = this.draw();
   }

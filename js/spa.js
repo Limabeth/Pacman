@@ -20,7 +20,7 @@ const MainMenu = {
   username: Menus.mainMenu.getElementsByClassName("username")[0],
   bestscore: Menus.mainMenu.getElementsByClassName("bestscore")[0],
   scorestable: Menus.mainMenu.getElementsByClassName("scores_table")[0],
-  newgame: document.getElementById("newgame"),
+  backToMenu: document.getElementById("back_to_menu"),
   start: Menus.mainMenu.getElementsByClassName("start")[0],
   trap: document.getElementById("main_menu_trap"),
 };
@@ -71,9 +71,8 @@ MainMenu.scorestable.onclick = function () {
 MainMenu.start.onclick = function () {
   game.startGame();
 };
-MainMenu.newgame.onclick = function () {
-  MainMenu.newgame.style.display = "none";
-  game.startGame();
+MainMenu.backToMenu.onclick = function () {
+  switchToMainMenu();
 };
 
 EnterNameMenu.send.onclick = function () {
@@ -365,7 +364,7 @@ function switchMenus() {
       Menus.enterNameMenu.style.display = "none";
       Menus.bestscoreMenu.style.display = "none";
       Menus.scoresTable.style.display = "none";
-      MainMenu.newgame.style.display = "none";
+      MainMenu.backToMenu.style.display = "none";
       MainMenu.username.focus();
       break;
 
@@ -404,7 +403,7 @@ function switchMenus() {
       Menus.enterNameMenu.style.display = "none";
       Menus.bestscoreMenu.style.display = "none";
       Menus.scoresTable.style.display = "none";
-      MainMenu.newgame.style.display = "none";
+      MainMenu.backToMenu.style.display = "none";
       break;
 
     default:
