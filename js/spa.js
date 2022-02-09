@@ -1,5 +1,3 @@
-// A lot could be clarified here but should be self-explanatory.
-
 const Menus = {
   cheatMenu: document.getElementById("cheats_menu"),
   mainMenu: document.getElementById("main_menu"),
@@ -218,12 +216,6 @@ function getScoresTable() {
   tableDiv.appendChild(scoreTable);
 }
 
-function warnBeforeReload(event) {
-  event.returnValue = "Whatever"
-}
-
-
-
 
 
 function ignoreGhosts() {
@@ -416,7 +408,6 @@ window.addEventListener("hashchange", switchToStateFromURLHash);
 switchToStateFromURLHash(); 
 
 window.addEventListener("load", function () {
-  window.removeEventListener("beforeunload", warnBeforeReload);
   window.addEventListener("keydown", keyPressInMenu);
 
   getSounds();

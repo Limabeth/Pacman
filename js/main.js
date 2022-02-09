@@ -1,3 +1,29 @@
+class Renderer {
+  constructor() {
+    this.fps = 60;
+    this.now = null;
+    this.then = Date.now();
+    this.interval = 1000 / this.fps;
+    this.delta = null;
+    this.timer = null;
+  }
+
+  render() {
+    console.log("Render Function called")
+    this.timer = requestAnimationFrame(() => this.render());
+
+    this.now = Date.now();
+    this.delta = this.now - this.then;
+
+    if (this.delta > this.interval) {
+      this.then = this.now - (this.delta % this.interval);
+      game.playGame();
+      console.log("Rendering game")
+    }
+  }
+
+}
+
 class Game {
   constructor() {
     this.cheats = false; //True if a cheat has been activated by user.
@@ -19,13 +45,12 @@ class Game {
     this.bestScore = 0;
     this.lives = 3;
 
-    this.extrapacs = {}; /* Stores extra lives, i.e. if a player has scored 10K points, they are given an extra life and this object will remember that the player has acquired an extra life on 10K points mark. */
+    this.extrapacs =
+      {}; /* Stores extra lives, i.e. if a player has scored 10K points, they are given an extra life and this object will remember that the player has acquired an extra life on 10K points mark. */
 
     this.mute = false;
     this.optimizeSounds = false; // Sound performance mode for mobile devices. If true, eat food sound is not played.
     this.soundsUnlocked = false; // Plays all sounds when user clicks on Start Game to make sure the browser confirms user's interaction with the app.
-
-    this.playGameTimer = null;
   }
 
   startGame() {
@@ -33,11 +58,11 @@ class Game {
       unlockSounds();
       game.soundsUnlocked = true;
     }
-  
+
     activateGameController(1);
 
     switchToGame();
-  
+
     game.createGame();
   }
 
@@ -48,65 +73,72 @@ class Game {
     inkyGhost.animate();
     pinkyGhost.animate();
     slinkyGhost.animate();
-  
+
     pacman.animate();
     collisionWithFood();
     collisionWithPill();
-  
-    if (collisionWithGhost() === true) {
 
-      cancelAnimationFrame(this.playGameTimer);
-      this.playGameTimer = null;
+    if (collisionWithGhost() === true) {
+      cancelAnimationFrame(renderer.timer);
+      renderer.timer = null;
 
       return;
-    } 
-  
-    else if (this.score - this.eatGhostScore === this.scoreLVL1 && this.level === 1) {
+      
+    } else if (
+      this.score - this.eatGhostScore === this.scoreLVL1 &&
+      this.level === 1
+    ) {
       this.changeLevel(2);
 
-      cancelAnimationFrame(this.playGameTimer);
-      this.playGameTimer = null;
+      cancelAnimationFrame(renderer.timer);
+      renderer.timer = null;
 
       return;
-  
-    } else if (this.score - this.eatGhostScore === this.scoreLVL2 && this.level === 2) { 
+    } else if (
+      this.score - this.eatGhostScore === this.scoreLVL2 &&
+      this.level === 2
+    ) {
       this.changeLevel(3);
 
-      cancelAnimationFrame(this.playGameTimer);
-      this.playGameTimer = null;
+      cancelAnimationFrame(renderer.timer);
+      renderer.timer = null;
 
       return;
-  
-    } else if (this.score - this.eatGhostScore === this.scoreLVL3 && this.level === 3) { 
+    } else if (
+      this.score - this.eatGhostScore === this.scoreLVL3 &&
+      this.level === 3
+    ) {
       this.changeLevel(4);
 
-      cancelAnimationFrame(this.playGameTimer);
-      this.playGameTimer = null;
+      cancelAnimationFrame(renderer.timer);
+      renderer.timer = null;
 
       return;
-
-    } else if (this.score - this.eatGhostScore === this.scoreLVL4 && this.level === 4) {
+    } else if (
+      this.score - this.eatGhostScore === this.scoreLVL4 &&
+      this.level === 4
+    ) {
       this.changeLevel(5);
 
-      cancelAnimationFrame(this.playGameTimer);
-      this.playGameTimer = null;
+      cancelAnimationFrame(renderer.timer);
+      renderer.timer = null;
 
       return;
-
-    } else if (this.score - this.eatGhostScore === this.scoreLVL5 && this.level === 5) {
+    } else if (
+      this.score - this.eatGhostScore === this.scoreLVL5 &&
+      this.level === 5
+    ) {
       this.changeLevel();
 
       setTimeout(function () {
         winner.start();
       }, 3000);
 
-      cancelAnimationFrame(this.playGameTimer);
-      this.playGameTimer = null;
+      cancelAnimationFrame(renderer.timer);
+      renderer.timer = null;
 
       return;
     }
-
-    this.playGameTimer = requestAnimationFrame(this.playGame.bind(this));
   }
 
   createGame() {
@@ -144,12 +176,12 @@ class Game {
 
   deleteGame() {
     soundPlayer("intro", "pause");
-    
+
     cancelAnimationFrame(winner.timer);
     winner.timer = null;
 
-    cancelAnimationFrame(this.playGameTimer);
-    this.playGameTimer = null;
+    cancelAnimationFrame(renderer.timer);
+    renderer.timer = null;
 
     this.on = false;
 
@@ -181,19 +213,16 @@ class Game {
       resetter.difficultyLVL2();
       this.level = 2;
       setTimeout(this.createLevel.bind(this), 3000);
-
     } else if (x === 3) {
       resetter.mazeLVL(3);
       resetter.difficultyLVL3();
       this.level = 3;
       setTimeout(this.createLevel.bind(this), 3000);
-
     } else if (x === 4) {
       resetter.mazeLVL(4);
       resetter.difficultyLVL4();
       this.level = 4;
       setTimeout(this.createLevel.bind(this), 3000);
-
     } else if (x === 5) {
       resetter.mazeLVL(5);
       resetter.difficultyLVL5();
@@ -210,7 +239,7 @@ class Game {
 
     resetter.mazedata();
     resetter.ghostMechs();
-    
+
     canvasCleaner("main");
     canvasCleaner("bg");
     canvasCleaner("maze");
@@ -247,7 +276,11 @@ class Game {
   }
 
   addLives() {
-    if (this.lives !== 3 && this.score >= 10000 && !("10000_POINTS_LIFE" in this.extrapacs)) {
+    if (
+      this.lives !== 3 &&
+      this.score >= 10000 &&
+      !("10000_POINTS_LIFE" in this.extrapacs)
+    ) {
       soundPlayer("extrapac", "play");
       this.lives += 1;
       this.extrapacs["10000_POINTS_LIFE"] = true;
@@ -258,9 +291,15 @@ class Game {
   }
 
   saveScore() {
-    if (this.score > AjaxScore.userdata[AjaxScore.username] && this.cheats === false) {
+    if (
+      this.score > AjaxScore.userdata[AjaxScore.username] &&
+      this.cheats === false
+    ) {
       AjaxScore.storeInfo();
-    } else if (this.score < AjaxScore.userdata[AjaxScore.username] && this.cheats === false) {
+    } else if (
+      this.score < AjaxScore.userdata[AjaxScore.username] &&
+      this.cheats === false
+    ) {
       return;
     }
   }
@@ -280,8 +319,7 @@ class Countdown {
       this.counter = 3;
       this.timer = null;
 
-      game.playGameTimer = game.playGame();
-
+      renderer.render();
     } else {
       this.draw(this.counter);
       this.counter--;
@@ -340,13 +378,13 @@ class LevelMessage {
     canvasCleaner("bg");
     ctxBG.fillStyle = colors[this.counter];
     ctxBG.beginPath();
-    ctxBG.font = blockHeight * 1.5 + "px" + " " +  "Squada One";
+    ctxBG.font = blockHeight * 1.5 + "px" + " " + "Squada One";
     ctxBG.fillText("LEVEL", blockWidth * 12.5, blockHeight * 14);
     ctxBG.closePath();
 
     ctxBG.fillStyle = colors[this.counter];
     ctxBG.beginPath();
-    ctxBG.font = blockHeight * 1.5 + "px" + " " +  "Squada One";
+    ctxBG.font = blockHeight * 1.5 + "px" + " " + "Squada One";
     ctxBG.fillText("PASSED", blockWidth * 12, blockHeight * 16);
     ctxBG.closePath();
 
@@ -362,8 +400,8 @@ class Interface {
   }
 
   draw() {
-    const scoreText = {x: blockWidth / 2, y: blockHeight * 32};
-    const livesText = {x: blockWidth * 20, y: blockHeight * 32};
+    const scoreText = { x: blockWidth / 2, y: blockHeight * 32 };
+    const livesText = { x: blockWidth * 20, y: blockHeight * 32 };
 
     ctx_ui.fillStyle = this.color;
     ctx_ui.font = this.fontSize + " " + this.fontStyle;
@@ -377,7 +415,10 @@ class Interface {
   drawScore() {
     canvasCleaner("score");
 
-    const scoreCountText = {x: blockWidth / 2 + blockWidth * 4, y: blockHeight * 32};
+    const scoreCountText = {
+      x: blockWidth / 2 + blockWidth * 4,
+      y: blockHeight * 32,
+    };
 
     ctx_score.fillStyle = this.color;
     ctx_score.font = this.fontSize + " " + this.fontStyle;
@@ -388,18 +429,18 @@ class Interface {
     canvasCleaner("ui");
     this.draw();
 
-    const pacs = {cx: blockWidth * 24.5, cy: blockHeight * 32 - blockHeight / 2.5, r: blockWidth / 2, a1: 0.2 * Math.PI, a2: 1.8 * Math.PI};
+    const pacs = {
+      cx: blockWidth * 24.5,
+      cy: blockHeight * 32 - blockHeight / 2.5,
+      r: blockWidth / 2,
+      a1: 0.2 * Math.PI,
+      a2: 1.8 * Math.PI,
+    };
 
     for (let i = 0; i < game.lives; i++) {
       ctx_ui.fillStyle = this.color;
       ctx_ui.beginPath();
-      ctx_ui.arc(
-        pacs.cx + blockWidth * i,
-        pacs.cy,
-        pacs.r,
-        pacs.a1,
-        pacs.a2
-      );
+      ctx_ui.arc(pacs.cx + blockWidth * i, pacs.cy, pacs.r, pacs.a1, pacs.a2);
       ctx_ui.lineTo(pacs.cx + blockWidth * i, pacs.cy);
       ctx_ui.closePath();
       ctx_ui.fill();
@@ -409,73 +450,93 @@ class Interface {
   drawDefaultScore() {
     canvasCleaner("score");
 
-    const coords = {FSx: blockWidth / 2, FSy: blockHeight * 31, BSx: blockWidth * 17, BSy: blockHeight * 31};
-  
+    const coords = {
+      FSx: blockWidth / 2,
+      FSy: blockHeight * 31,
+      BSx: blockWidth * 17,
+      BSy: blockHeight * 31,
+    };
+
     const colorFS = "rgb(101, 255, 101)";
     const colorBS = "rgb(77, 226, 252)";
     const fontSize = blockWidth - blockWidth / 12 + "px";
     const fontStyle = "Audiowide";
-  
-    ctx_score.fillStyle = colorFS; 
+
+    ctx_score.fillStyle = colorFS;
     ctx_score.font = fontSize + " " + fontStyle;
     ctx_score.fillText("FINAL SCORE: " + game.score, coords.FSx, coords.FSy);
 
-    ctx_score.fillStyle = colorBS; 
+    ctx_score.fillStyle = colorBS;
     ctx_score.font = fontSize + " " + fontStyle;
     ctx_score.fillText("BEST SCORE: 0", coords.BSx, coords.BSy);
-
   }
 
   drawFinalScore() {
     canvasCleaner("score");
 
-    const coords = {FSx: blockWidth / 2, FSy: blockHeight * 31, BSx: blockWidth * 17, BSy: blockHeight * 31};
-  
+    const coords = {
+      FSx: blockWidth / 2,
+      FSy: blockHeight * 31,
+      BSx: blockWidth * 17,
+      BSy: blockHeight * 31,
+    };
+
     const colorFS = "rgb(101, 255, 101)";
     const colorBS = "rgb(77, 226, 252)";
     const fontSize = blockWidth - blockWidth / 12 + "px";
     const fontStyle = "Audiowide";
-  
-    ctx_score.fillStyle = colorFS; 
+
+    ctx_score.fillStyle = colorFS;
     ctx_score.font = fontSize + " " + fontStyle;
     ctx_score.fillText("FINAL SCORE: " + game.score, coords.FSx, coords.FSy);
-  
+
     if (game.score >= game.bestScore) {
-      ctx_score.fillStyle = colorBS; 
+      ctx_score.fillStyle = colorBS;
       ctx_score.font = fontSize + " " + fontStyle;
       ctx_score.fillText("BEST SCORE: " + game.score, coords.BSx, coords.BSy);
-
     } else if (game.score < game.bestScore) {
-      ctx_score.fillStyle = colorBS; 
+      ctx_score.fillStyle = colorBS;
       ctx_score.font = fontSize + " " + fontStyle;
-      ctx_score.fillText("BEST SCORE: " + game.bestScore, coords.BSx, coords.BSy);
-    } 
+      ctx_score.fillText(
+        "BEST SCORE: " + game.bestScore,
+        coords.BSx,
+        coords.BSy
+      );
+    }
   }
 
   drawFinalScoreAjax() {
     canvasCleaner("score");
 
-    const coords = {FSx: blockWidth / 2, FSy: blockHeight * 31, BSx: blockWidth * 17, BSy: blockHeight * 31};
-  
+    const coords = {
+      FSx: blockWidth / 2,
+      FSy: blockHeight * 31,
+      BSx: blockWidth * 17,
+      BSy: blockHeight * 31,
+    };
+
     const colorFS = "rgb(101, 255, 101)";
     const colorBS = "rgb(77, 226, 252)";
     const fontSize = blockWidth - blockWidth / 12 + "px";
     const fontStyle = "Audiowide";
-  
-    ctx_score.fillStyle = colorFS; 
+
+    ctx_score.fillStyle = colorFS;
     ctx_score.font = fontSize + " " + fontStyle;
     ctx_score.fillText("FINAL SCORE: " + game.score, coords.FSx, coords.FSy);
-  
+
     if (game.score >= AjaxScore.userdata[AjaxScore.username]) {
-      ctx_score.fillStyle = colorBS; 
+      ctx_score.fillStyle = colorBS;
       ctx_score.font = fontSize + " " + fontStyle;
       ctx_score.fillText("BEST SCORE: " + game.score, coords.BSx, coords.BSy);
-
     } else if (game.score < AjaxScore.userdata[AjaxScore.username]) {
-      ctx_score.fillStyle = colorBS; 
+      ctx_score.fillStyle = colorBS;
       ctx_score.font = fontSize + " " + fontStyle;
-      ctx_score.fillText("BEST SCORE: " + AjaxScore.userdata[AjaxScore.username], coords.BSx, coords.BSy);
-    } 
+      ctx_score.fillText(
+        "BEST SCORE: " + AjaxScore.userdata[AjaxScore.username],
+        coords.BSx,
+        coords.BSy
+      );
+    }
   }
 }
 
@@ -694,8 +755,7 @@ class Reset {
 
 const ui = new Interface();
 const game = new Game();
+const renderer = new Renderer();
 const resetter = new Reset();
 const countdown = new Countdown(); // Displays and manages the countdown before the game starts or before new level starts.
 const levelMessage = new LevelMessage(); // Displays the level complete message
-
-
